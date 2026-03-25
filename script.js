@@ -44,25 +44,37 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // error exe View Counter Logic (Simulated using LocalStorage)
+    // error exe Global View Counter Logic (Using CounterAPI)
     const viewCountEl = document.getElementById('view-count');
     if (viewCountEl) {
-        // Retrieve views from localStorage, or start at a base number
-        let views = localStorage.getItem('profile_views_v2');
-        if (!views) {
-            views = 1; // Starter number
-            sessionStorage.setItem('viewed_this_session', 'true');
-        } else {
-            views = parseInt(views); // Increment by 1 if not viewed
-            if (!sessionStorage.getItem('viewed_this_session')) {
-                views++;
-                sessionStorage.setItem('viewed_this_session', 'true');
+        const fetchCounter = async () => {
+            try {
+                let res;
+                // Only increment (up) if this is a fresh browser session
+                if (!sessionStorage.getItem('viewed_this_session')) {
+                    res = await fetch('https://api.counterapi.dev/v1/errorexe/portfolio/up');
+                    sessionStorage.setItem('viewed_this_session', 'true');
+                } else {
+                    res = await fetch('https://api.counterapi.dev/v1/errorexe/portfolio'); // Just get current count
+                }
+                const data = await res.json();
+                if (data.count) {
+                    viewCountEl.textContent = data.count.toLocaleString();
+                }
+            } catch (err) {
+                console.error("View counter failed", err);
             }
-        }
-        localStorage.setItem('profile_views_v2', views);
+        };
 
-        // Format with commas
-        viewCountEl.textContent = views.toLocaleString();
+        fetchCounter();
+        // Periodically refresh the view count to see new visitors live!
+        setInterval(async () => {
+            try {
+                const res = await fetch('https://api.counterapi.dev/v1/errorexe/portfolio');
+                const data = await res.json();
+                if (data.count) viewCountEl.textContent = data.count.toLocaleString();
+            } catch (err) {}
+        }, 15000); // 15s refresh
     }
 
     // error premium Card 3D Parallax Effect
