@@ -51,8 +51,13 @@ document.addEventListener('DOMContentLoaded', () => {
         let views = localStorage.getItem('profile_views_v2');
         if (!views) {
             views = 1; // Starter number
+            sessionStorage.setItem('viewed_this_session', 'true');
         } else {
-            views = parseInt(views) + 1; // Increment by 1 each refresh
+            views = parseInt(views); // Increment by 1 if not viewed
+            if (!sessionStorage.getItem('viewed_this_session')) {
+                views++;
+                sessionStorage.setItem('viewed_this_session', 'true');
+            }
         }
         localStorage.setItem('profile_views_v2', views);
 
