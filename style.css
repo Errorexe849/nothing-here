@@ -460,6 +460,34 @@ body.hovering .cursor-trail {
     text-shadow: 0 0 8px var(--neon-cyan);
 }
 
+/* Typing Effect */
+.typing-container {
+    color: #ffffff;
+    font-size: 1.05rem;
+    font-weight: 500;
+    margin-bottom: 25px;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 2px;
+    height: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(173, 0, 255, 0.4);
+    text-transform: uppercase;
+}
+
+.typing-cursor {
+    animation: blink 0.8s step-end infinite;
+    color: var(--neon-cyan);
+    margin-left: 2px;
+    font-weight: bold;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
 /* Discord Presence Card */
 .discord-presence {
     width: 100%;

@@ -77,6 +77,37 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 15000); // 15s refresh
     }
 
+    // Typing Effect Logic
+    const typingTextEl = document.getElementById('typing-text');
+    if (typingTextEl) {
+        const typingString = "script kitten on top";
+        let isDeleting = false;
+        let charIndex = 0;
+        
+        function typeEffect() {
+            // Typing speed: 120ms per key, Backspacing speed: 60ms per key
+            const currentSpeed = isDeleting ? 60 : 120;
+            
+            if (!isDeleting && charIndex === typingString.length) {
+                // Pause at the end before deleting
+                setTimeout(() => { isDeleting = true; typeEffect(); }, 2500);
+                return;
+            } else if (isDeleting && charIndex === 0) {
+                // Pause before typing again
+                isDeleting = false;
+                setTimeout(typeEffect, 1000);
+                return;
+            }
+
+            typingTextEl.textContent = typingString.substring(0, isDeleting ? charIndex - 1 : charIndex + 1);
+            charIndex = isDeleting ? charIndex - 1 : charIndex + 1;
+
+            setTimeout(typeEffect, currentSpeed);
+        }
+        
+        setTimeout(typeEffect, 1000);
+    }
+
     // error premium Card 3D Parallax Effect
     const card = document.querySelector('.card');
     
