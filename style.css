@@ -66,6 +66,19 @@ body.hovering .cursor-trail {
     box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
 }
 
+/* Background Video */
+#bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 0.5; /* Keep it dark so content is readable */
+    pointer-events: none;
+}
+
 /* Particles Container */
 #tsparticles {
     position: absolute;
